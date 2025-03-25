@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <script>
+    window.flutterWebRenderer = "canvaskit";
+</script>
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="HACK & HUNT - KIIT FEST 8.0">
+
+  <!-- iOS Meta Tags & Icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="hack_hunt">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>HACK & HUNT</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Preload critical assets -->
+  <link rel="preload" href="flutter.js" as="script">
+  <link rel="preload" href="main.dart.js" as="script">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  <script>
+    window.addEventListener('load', function(ev) {
+      Flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        renderer: 'canvaskit' // Force CanvasKit
+      }).then(function(engineInitializer) {
+        return engineInitializer.initializeEngine();
+      }).then(function(appRunner) {
+        return appRunner.runApp();
+      });
+    });
+  </script>
+  <script>
+    // Initialize Firebase before Flutter
+    window.addEventListener('load', function() {
+      if (firebase) {
+        firebase.initializeApp(firebaseConfig);
+      }
+    });
+  </script>
+
+  <script src="flutter.js" defer></script>
+
+</head>
+<body>
+  <!-- Initial Loader -->
+  <div id="loading" style="position: fixed; width: 100%; height: 100%; background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/header_logo.jpeg') no-repeat center center; background-size: contain; display: flex; justify-content: center; align-items: center; flex-direction: column; top: 0; left: 0;">
+    <div class="spinner"></div>
+  </div>
+
+  <script>
+    window.addEventListener('load', function() {
+      var loading = document.querySelector('#loading');
+
+      // Initialize Flutter
+      _flutterLoader.loadEntrypoint({
+        onEntrypointLoaded: async function(engineInitializer) {
+          try {
+            let appRunner = await engineInitializer.initializeEngine({
+              useColorEmoji: true,
+            });
+
+            // Remove loading indicator
+            if (loading) {
+              loading.style.opacity = '0';
+              await new Promise(resolve => setTimeout(resolve, 400));
+              loading.remove();
+            }
+
+            await appRunner.runApp();
+          } catch (error) {
+            console.error('Error initializing Flutter app:', error);
+            if (loading) {
+              loading.innerHTML = '<div class="error-message">Error loading application. Please refresh the page.</div>';
+            }
+          }
+        }
+      });
+    });
+  </script>
+  <script src="canvaskit/canvaskit.js"></script>
+  <script src="flutter_bootstrap.js" async></script>
+
+  <style>
+    .spinner {
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top: 4px solid #fff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+      margin: auto;
+    }
+
+    .loading-text {
+      margin-top: 25px;
+      font-size: 28px;
+      font-weight: 600;
+      color: #ffffff;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 1.5s ease-in-out infinite;
+      font-family: 'Arial', sans-serif;
+      letter-spacing: 1px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg) scale(1); }
+      50% { transform: rotate(180deg) scale(1.2); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    @keyframes fadeIn {
+      0%, 100% { opacity: 0.4; transform: translateY(-2px); }
+      50% { opacity: 1; transform: translateY(2px); }
+    }
+  </style>
+</body>
+</html>
